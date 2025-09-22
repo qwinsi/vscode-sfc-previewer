@@ -15,7 +15,7 @@
 	"activationEvents": [
 		"onCommand:vscode-sfc-previewer.previewSfc"
 	],
-	"main": "./extension.js",
+	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
@@ -42,9 +42,13 @@
 		}
 	},
 	"scripts": {
-		"build": "npx vsce package"
+		"bundle": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+		"build": "npm run bundle && npx vsce package"
 	},
 	"dependencies": {
 		"sucrase": "^3.35.0"
+	},
+	"devDependencies": {
+		"esbuild": "^0.25.10"
 	}
 }
