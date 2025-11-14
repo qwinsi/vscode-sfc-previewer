@@ -3,7 +3,7 @@
 	"displayName": "SFC Previewer",
 	"description": "VS Code extension that allows previewing React Single File Components (SFC).",
 	"license": "MIT",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"publisher": "qwinsi",
 	"repository": "https://github.com/qwinsi/vscode-sfc-previewer",
 	"engines": {
@@ -27,14 +27,14 @@
 		"menus": {
 			"explorer/context": [
 				{
-					"when": "resourceLangId == javascriptreact",
+					"when": "resourceLangId == javascriptreact  || resourceExtname == '.svelte'",
 					"command": "vscode-sfc-previewer.previewSfc",
 					"group": "navigation"
 				}
 			],
 			"editor/title": [
 				{
-					"when": "resourceLangId == javascriptreact",
+					"when": "resourceLangId == javascriptreact || resourceExtname == '.svelte'",
 					"command": "vscode-sfc-previewer.previewSfc",
 					"group": "navigation"
 				}
@@ -46,7 +46,8 @@
 		"build": "npm run bundle && npx vsce package"
 	},
 	"dependencies": {
-		"sucrase": "^3.35.0"
+		"sucrase": "^3.35.0",
+		"svelte": "^5.43.6"
 	},
 	"devDependencies": {
 		"esbuild": "^0.25.10"
