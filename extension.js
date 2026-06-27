@@ -5,6 +5,7 @@ const fs = require('fs')
 const path = require('path');
 import { render_svelte } from './svelte-render.js';
 import { render_jsx } from './jsx-render.js';
+import { render_vue } from './vue-render.js';
 
 function remove_ext(filename) {
 	const idx = filename.lastIndexOf(".");
@@ -62,6 +63,8 @@ function activate(context) {
 			render_func = (jsx) => render_jsx(jsx, base_dir_url, panel);
 		} else if (filename.endsWith(".svelte")) {
 			render_func = (svelteCode) => render_svelte(svelteCode, context.extensionUri, panel);
+		} else if (filename.endsWith(".vue")) {
+			render_func = (vueCode) => render_vue(vueCode, base_dir_url, panel);
 		} else {
 			vscode.window.showErrorMessage(`[jsx-to-svg] Unsupported file type: ${filename}`);
 			return;

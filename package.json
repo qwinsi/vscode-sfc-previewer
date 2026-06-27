@@ -1,7 +1,7 @@
 {
 	"name": "vscode-sfc-previewer",
 	"displayName": "SFC Previewer",
-	"description": "VS Code extension that allows previewing React Single File Components (SFC).",
+	"description": "VS Code extension that allows previewing React, Svelte, and Vue Single File Components (SFC).",
 	"license": "MIT",
 	"version": "0.2.0",
 	"publisher": "qwinsi",
@@ -27,14 +27,14 @@
 		"menus": {
 			"explorer/context": [
 				{
-					"when": "resourceLangId == javascriptreact  || resourceExtname == '.svelte'",
+					"when": "resourceLangId == javascriptreact  || resourceExtname == '.svelte' || resourceExtname == '.vue'",
 					"command": "vscode-sfc-previewer.previewSfc",
 					"group": "navigation"
 				}
 			],
 			"editor/title": [
 				{
-					"when": "resourceLangId == javascriptreact || resourceExtname == '.svelte'",
+					"when": "resourceLangId == javascriptreact || resourceExtname == '.svelte' || resourceExtname == '.vue'",
 					"command": "vscode-sfc-previewer.previewSfc",
 					"group": "navigation"
 				}
@@ -46,6 +46,7 @@
 		"build": "npm run bundle && npx vsce package"
 	},
 	"dependencies": {
+		"@vue/compiler-sfc": "^3.5.22",
 		"sucrase": "^3.35.0",
 		"svelte": "^5.43.6"
 	},
