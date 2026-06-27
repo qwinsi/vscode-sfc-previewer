@@ -3,7 +3,7 @@
 	"displayName": "SFC Previewer",
 	"description": "VS Code extension that allows previewing React, Svelte, and Vue Single File Components (SFC).",
 	"license": "MIT",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"publisher": "qwinsi",
 	"repository": "https://github.com/qwinsi/vscode-sfc-previewer",
 	"engines": {
