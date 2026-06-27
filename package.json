@@ -42,7 +42,7 @@
 		}
 	},
 	"scripts": {
-		"bundle": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+		"bundle": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --external:./jsx-render.js --external:./svelte-render.js --external:./vue-render.js --format=cjs --platform=node && esbuild jsx-render.js svelte-render.js vue-render.js --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
 		"build": "npm run bundle && npx vsce package"
 	},
 	"dependencies": {

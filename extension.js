@@ -3,9 +3,6 @@
 const vscode = require('vscode');
 const fs = require('fs')
 const path = require('path');
-import { render_svelte } from './svelte-render.js';
-import { render_jsx } from './jsx-render.js';
-import { render_vue } from './vue-render.js';
 
 function remove_ext(filename) {
 	const idx = filename.lastIndexOf(".");
@@ -13,6 +10,22 @@ function remove_ext(filename) {
 		return filename;
 	}
 	return filename.substring(0, idx);
+}
+
+function get_renderer(filename, base_dir_url, extensionUri, panel) {
+	if (filename.endsWith(".jsx")) {
+		const { render_jsx } = require('./jsx-render.js');
+		return (jsx) => render_jsx(jsx, base_dir_url, panel);
+	}
+	if (filename.endsWith(".svelte")) {
+		const { render_svelte } = require('./svelte-render.js');
+		return (svelteCode) => render_svelte(svelteCode, extensionUri, panel);
+	}
+	if (filename.endsWith(".vue")) {
+		const { render_vue } = require('./vue-render.js');
+		return (vueCode) => render_vue(vueCode, base_dir_url, panel);
+	}
+	return undefined;
 }
 
 // this method is called when your extension is activated
@@ -57,20 +70,13 @@ function activate(context) {
 			}
 		);
 
-		const content = fs.readFileSync(fsPath).toString();
-		let render_func;
-		if (filename.endsWith(".jsx")) {
-			render_func = (jsx) => render_jsx(jsx, base_dir_url, panel);
-		} else if (filename.endsWith(".svelte")) {
-			render_func = (svelteCode) => render_svelte(svelteCode, context.extensionUri, panel);
-		} else if (filename.endsWith(".vue")) {
-			render_func = (vueCode) => render_vue(vueCode, base_dir_url, panel);
-		} else {
+		const render_func = get_renderer(filename, base_dir_url, context.extensionUri, panel);
+		if (!render_func) {
 			vscode.window.showErrorMessage(`[jsx-to-svg] Unsupported file type: ${filename}`);
 			return;
 		}
 
-
+		const content = fs.readFileSync(fsPath).toString();
 		panel.webview.html = render_func(content);
 
 		// Listen for file saved
